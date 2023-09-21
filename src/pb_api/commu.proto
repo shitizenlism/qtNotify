@@ -1,0 +1,106 @@
+syntax = "proto3";
+package notify;
+
+message Login {
+	string DevType = 1;
+	string TableId = 2;
+	string Version = 3;
+}
+
+message LoginReply {
+	uint32 error = 1;
+	string Cuid  = 2; // 如果Login成功，会返回服务器唯一标识每个客户端的CUID。
+}
+
+message HeartInfo {
+	string Cuid = 1; // 客户端的CUID
+}
+
+message DetectRecordConfig {
+	string TableId   = 1; // 客户端的CUID
+	bool IsCleanImg  = 2; // 是否清除图片
+	bool IsCleanLog  = 3; // 是否清除log日志
+	bool IsCleanCSV  = 4; // 是否清除CSV记录
+	uint32 SaveDays  = 5; // 记录保存天数
+	string CleanTime = 6; // 自动清理时间
+}
+
+message ReportDetectRecordConfig {
+    DetectRecordConfig Config = 1;
+}
+
+message ReportDetectRecordConfigReply {
+	uint32 error   = 1; // 回复状态，0 - 没有错误，启动定时清理；1 - 不支持的命令；2 - 识别程序不存在; 3 - 其他错误
+	string TableId = 2; // 客户端的TableId
+}
+
+message SetDetectRecordConfig {
+    DetectRecordConfig Config = 1;
+}
+
+message SetDetectRecordConfigReply {
+	uint32 error   = 1; // 回复状态，0 - 没有错误，启动定时清理；1 - 不支持的命令；2 - 识别程序不存在; 3 - tableid 不匹配; 4 - 参数不正确 ；5 - 其他错误
+	string TableId = 2; // 客户端的TableId
+}
+
+message DetectVideoConfig {
+    string Vid          = 1;
+    string GameType     = 2;
+    string Stream       = 3;
+    string PositionFile = 4;
+    uint32 Width        = 5;
+    uint32 Height       = 6;
+}
+
+message DetectConfig {
+             string            TableId        = 1;
+	         uint32            Freq           = 3;
+	         uint32            Detecttimes    = 4;
+	         float             Saveimagescore = 5;
+	         string            DealerId       = 6;
+	         string            DealerHost     = 7;
+	         uint32            DealerPort     = 8;
+	         string            DevmgrHost     = 9;
+	         uint32            DevmgrPort     = 10;
+	         string            ModelFile      = 11;
+	repeated DetectVideoConfig VideoList      = 12;
+}
+
+message ReportDetectConfig {
+    DetectConfig Config = 1;
+}
+
+message ReportDetectConfigReply {
+    uint32 error   = 1; // 回复状态，0 - 没有错误; 1 - 参数错误 ; 2 - ;
+    string TableId = 2; // 客户端的TableId
+}
+
+message SetDetectConfig {
+    DetectConfig Config = 1;
+}
+
+message SetDetectConfigReply {
+    uint32 error = 1; // 回复状态，0 - 没有错误; 1 - 参数错误 ; 2 - ;
+    string TableId = 2; // 客户端的TableId
+}
+
+message ThresholdNode {
+    string Card = 1;
+    float Threshold = 2;
+}
+message ReportThresholds {
+             string        TableId = 1;
+    repeated ThresholdNode Nodes   = 2;
+}
+message ReportThresholdsReply {
+    string TableId = 1; // 客户端的TableId
+    uint32 error   = 2; // 回复状态，0 - 没有错误; 1 - 参数错误 ; 2 - ;
+}
+message SetThresholds {
+             string        TableId = 1;
+    repeated ThresholdNode Nodes   = 2;
+}
+message SetThresholdsReply {
+    string TableId = 1; // 客户端的TableId
+    uint32 error   = 2; // 回复状态，0 - 没有错误; 1 - 参数错误 ; 2 - ;
+}

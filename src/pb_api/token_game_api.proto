@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package token_game_api;
+
+message ReportGameResultRequest {
+	         string vid         = 1;
+	         string round       = 2;
+	repeated uint32 playerCards = 3; 
+	repeated uint32 bankerCards = 4;
+	         uint32 playerVal   = 5;
+	         uint32 bankerVal   = 6;
+	         uint32 res         = 7;
+}
+
+message ReportGameResultResponse {
+}
+
+service TokenGameService {
+	rpc ReportGameResult(ReportGameResultRequest) returns(ReportGameResultResponse);
+}
